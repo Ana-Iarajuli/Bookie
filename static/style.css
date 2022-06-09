@@ -1,0 +1,17 @@
+body {
+    background: aquamarine;
+}
+
+h1 {
+    color: purple;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.info {
+    color: green;
+    font-weight: bold;
+}
