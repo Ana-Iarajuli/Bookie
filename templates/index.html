@@ -1,14 +1,25 @@
+<!DOCTYPE html>
 {% extends 'base.html' %}
-
-{% block title %}
-    Home
-{% endblock %}
-
 {% block content %}
-    {{ super() }}
-        <center>
-            <h2>We recommend, You read</h2>
-            <img style="margin-top: 20px" src="static/img/books.png" width="500">
-        </center>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello World!</title>
+    </head>
+    <body>
+    <h1>Hello World!</h1>
+    {% for each in fantasy %}
+    <div class="card" style="width: 10%;" >
+  <img src={{fantasy[each]}} class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{each}}</h5>
+    <p class="card-text">{{fant[each]}}.</p>
+      <p class="card-text">{{fantas[each]}}</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+    {% endfor %}
+    </body>
+    </html>
 
 {% endblock %}

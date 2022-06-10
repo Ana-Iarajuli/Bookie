@@ -1,5 +1,8 @@
-import re
 
+from genre import genre_page
+import requests
+from bs4 import BeautifulSoup
+from sqlalchemy.sql import func
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -57,6 +60,82 @@ class Books(db.Model):
 # db.session.add(b1)
 # db.session.commit()
 
+fantasy = {}
+fant = {}
+fantas = {}
+
+url = 'https://www.goodreads.com/shelf/show/fantasy'
+r = requests.get(url)
+soup = BeautifulSoup(r.text, 'html.parser')
+sub_soup = soup.find('div', class_='leftContainer')
+all_items = sub_soup.find_all('div', class_='elementList')
+for each in all_items:
+
+    img_url = each.img.attrs['src']
+    # f_img_url.append(img_url)
+    t = each.find('div', class_='left')
+    title = t.find('a', class_='bookTitle').text
+    # f_title.append(title)
+    author = each.find('div', class_='authorName__container').span.text
+    # f_author.append(author)
+    avg = each.find('div', class_='left')
+    avgRating = avg.find('span', class_='greyText smallText').text
+    # f_avg.append(avgRating)
+    fantasy[title] = img_url
+    fant[title] = avgRating
+    fantas[title] = author
+
+
+
+crime = {}
+cr = {}
+crim = {}
+
+url1 = 'https://www.goodreads.com/shelf/show/crime'
+r1 = requests.get(url1)
+soup1 = BeautifulSoup(r.text, 'html.parser')
+sub_soup1 = soup1.find('div', class_='leftContainer')
+all_items1 = sub_soup1.find_all('div', class_='elementList')
+for each in all_items1:
+
+    img_url1 = each.img.attrs['src']
+    # c_img_url.append(img_url1)
+    t1 = each.find('div', class_='left')
+    title1 = t1.find('a', class_='bookTitle').text
+    # c_title.append(title1)
+    author1 = each.find('div', class_='authorName__container').span.text
+    # c_author.append(author1)
+    avg1 = each.find('div', class_='left')
+    avgRating1 = avg1.find('span', class_='greyText smallText').text
+    # c_avg.append(avgRating1)
+    crime[title1] = img_url1
+    cr[title1] = avgRating1
+    crim[title] = author1
+
+scienceFiction = {}
+sf = {}
+sciencef = {}
+url2 = 'https://www.goodreads.com/shelf/show/science-fiction'
+r2 = requests.get(url2)
+soup2 = BeautifulSoup(r.text, 'html.parser')
+sub_soup2 = soup2.find('div', class_='leftContainer')
+all_items2 = sub_soup2.find_all('div', class_='elementList')
+for each in all_items2:
+
+    img_url2 = each.img.attrs['src']
+    # s_img_url.append(img_url2)
+    t2 = each.find('div', class_='left')
+    title2 = t2.find('a', class_='bookTitle').text
+    # s_title.append(title2)
+    author2 = each.find('div', class_='authorName__container').span.text
+    # s_author.append(author2)
+    avg2 = each.find('div', class_='left')
+    avgRating2 = avg2.find('span', class_='greyText smallText').text
+    # s_avg.append(avgRating2)
+    scienceFiction[title] = img_url2
+    sf[title] = avgRating2
+    sciencef[title] = author2
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
@@ -97,7 +176,8 @@ class LoginForm(FlaskForm):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html',fantasy=fantasy , crime=crime , scienceFiction= scienceFiction,
+                           fant=fant , cr=cr, sf=sf)
 
 
 @app.route('/register', methods=['POST', 'GET'])
