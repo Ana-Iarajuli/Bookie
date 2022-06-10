@@ -3,16 +3,18 @@
 {% block content %}
     <h2>Hello {{ session['username'] }}</h2>
 
-    {% for i in subjects %}
-        <p>საგანი: {{ i }}</p>
-        {% if i=='Python' %}
-            <p>გამოცდა: 1 ივლისი</p>
-        {% elif i=='Calculus'%}
-            <p>გამოცდა: 5 ივლისი</p>
-        {% else %}
-            <p>გამოცდა: 13 ივლისი</p>
-        {% endif %}
+    {% for each in bookPhoto %}
+    <div class="card" style="width: 10%;" >
+  <img src={{bookPhoto[each]}} class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{each}}</h5>
+    <p class="card-text">{{bookAuthor[each]}}.</p>
+      <p class="card-text">{{bookRating[each]}}</p>
+  </div>
+</div>
     {% endfor %}
+    </body>
+    </html>
 
 <a href="{{url_for('logout')}}"> Log out </a>
 {% endblock %}

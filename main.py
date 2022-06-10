@@ -1,4 +1,3 @@
-
 import requests
 from bs4 import BeautifulSoup
 from flask import Flask, redirect, url_for, render_template, request, session, flash
@@ -37,73 +36,127 @@ class Books(db.Model):
         return f'Book title: {self.title}; Author: {self.author}; Price: {self.price}'
 
 
-fantasy = {}
-fant = {}
-fantas = {}
+# def book_genre(genre):
+#     url = f'https://www.goodreads.com/shelf/show/{genre}'
+#     r = requests.get(url)
+#     soup = BeautifulSoup(r.text, 'html.parser')
+#     sub_soup = soup.find('div', class_='leftContainer')
+#     all_items = sub_soup.find_all('div', class_='elementList')
+#     for each in all_items:
+#         img_url = each.img.attrs['src']
+#         t = each.find('div', class_='left')
+#         title = t.find('a', class_='bookTitle').text
+#         author = each.find('div', class_='authorName__container').span.text
+#         avg = each.find('div', class_='left')
+#         avgRating = avg.find('span', class_='greyText smallText').text
+#
+#         if genre == 'fantasy':
+#             fantasy[title] = img_url
+#             fant[title] = avgRating
+#             fantas[title] = author
+#         elif genre == 'crime':
+#             crime[title] = img_url
+#             cr[title] = avgRating
+#             crim[title] = author
+#         else:
+#             scienceFiction[title] = img_url
+#             sf[title] = avgRating
+#             sciencef[title] = author
 
-url = 'https://www.goodreads.com/shelf/show/fantasy'
-r = requests.get(url)
-soup = BeautifulSoup(r.text, 'html.parser')
-sub_soup = soup.find('div', class_='leftContainer')
-all_items = sub_soup.find_all('div', class_='elementList')
-for each in all_items:
+# fantasyBooks = book_genre('fantasy')
+# crimeBooks = book_genre('crime')
+# sci_fiBooks = book_genre('science-fiction')
+# fantasy = {}
+# fant = {}
+# fantas = {}
 
-    img_url = each.img.attrs['src']
-    t = each.find('div', class_='left')
-    title = t.find('a', class_='bookTitle').text
-    author = each.find('div', class_='authorName__container').span.text
-    avg = each.find('div', class_='left')
-    avgRating = avg.find('span', class_='greyText smallText').text
-    fantasy[title] = img_url
-    fant[title] = avgRating
-    fantas[title] = author
+# url = 'https://www.goodreads.com/shelf/show/fantasy'
+# r = requests.get(url)
+# soup = BeautifulSoup(r.text, 'html.parser')
+# sub_soup = soup.find('div', class_='leftContainer')
+# all_items = sub_soup.find_all('div', class_='elementList')
+# for each in all_items:
+#
+#     img_url = each.img.attrs['src']
+#     t = each.find('div', class_='left')
+#     title = t.find('a', class_='bookTitle').text
+#     author = each.find('div', class_='authorName__container').span.text
+#     avg = each.find('div', class_='left')
+#     avgRating = avg.find('span', class_='greyText smallText').text
+#     fantasy[title] = img_url
+#     fant[title] = avgRating
+#     fantas[title] = author
 
 
 
-crime = {}
-cr = {}
-crim = {}
+# crime = {}
+# cr = {}
+# crim = {}
 
-url1 = 'https://www.goodreads.com/shelf/show/crime'
-r1 = requests.get(url1)
-soup1 = BeautifulSoup(r.text, 'html.parser')
-sub_soup1 = soup1.find('div', class_='leftContainer')
-all_items1 = sub_soup1.find_all('div', class_='elementList')
-for each in all_items1:
+# url1 = 'https://www.goodreads.com/shelf/show/crime'
+# r1 = requests.get(url1)
+# soup1 = BeautifulSoup(r.text, 'html.parser')
+# sub_soup1 = soup1.find('div', class_='leftContainer')
+# all_items1 = sub_soup1.find_all('div', class_='elementList')
+# for each in all_items1:
+#
+#     img_url1 = each.img.attrs['src']
+#     t1 = each.find('div', class_='left')
+#     title1 = t1.find('a', class_='bookTitle').text
+#     author1 = each.find('div', class_='authorName__container').span.text
+#     avg1 = each.find('div', class_='left')
+#     avgRating1 = avg1.find('span', class_='greyText smallText').text
+#     crime[title1] = img_url1
+#     cr[title1] = avgRating1
+#     crim[title1] = author1
 
-    img_url1 = each.img.attrs['src']
-    t1 = each.find('div', class_='left')
-    title1 = t1.find('a', class_='bookTitle').text
-    author1 = each.find('div', class_='authorName__container').span.text
-    avg1 = each.find('div', class_='left')
-    avgRating1 = avg1.find('span', class_='greyText smallText').text
-    crime[title1] = img_url1
-    cr[title1] = avgRating1
-    crim[title] = author1
+# scienceFiction = {}
+# sf = {}
+# sciencef = {}
+# url2 = 'https://www.goodreads.com/shelf/show/science-fiction'
+# r2 = requests.get(url2)
+# soup2 = BeautifulSoup(r.text, 'html.parser')
+# sub_soup2 = soup2.find('div', class_='leftContainer')
+# all_items2 = sub_soup2.find_all('div', class_='elementList')
+# for each in all_items2:
+#
+#     img_url2 = each.img.attrs['src']
+#     # s_img_url.append(img_url2)
+#     t2 = each.find('div', class_='left')
+#     title2 = t2.find('a', class_='bookTitle').text
+#     # s_title.append(title2)
+#     author2 = each.find('div', class_='authorName__container').span.text
+#     # s_author.append(author2)
+#     avg2 = each.find('div', class_='left')
+#     avgRating2 = avg2.find('span', class_='greyText smallText').text
+#     # s_avg.append(avgRating2)
+#     scienceFiction[title2] = img_url2
+#     sf[title2] = avgRating2
+#     sciencef[title] = author2
 
-scienceFiction = {}
-sf = {}
-sciencef = {}
-url2 = 'https://www.goodreads.com/shelf/show/science-fiction'
-r2 = requests.get(url2)
-soup2 = BeautifulSoup(r.text, 'html.parser')
-sub_soup2 = soup2.find('div', class_='leftContainer')
-all_items2 = sub_soup2.find_all('div', class_='elementList')
-for each in all_items2:
 
-    img_url2 = each.img.attrs['src']
-    # s_img_url.append(img_url2)
-    t2 = each.find('div', class_='left')
-    title2 = t2.find('a', class_='bookTitle').text
-    # s_title.append(title2)
-    author2 = each.find('div', class_='authorName__container').span.text
-    # s_author.append(author2)
-    avg2 = each.find('div', class_='left')
-    avgRating2 = avg2.find('span', class_='greyText smallText').text
-    # s_avg.append(avgRating2)
-    scienceFiction[title] = img_url2
-    sf[title] = avgRating2
-    sciencef[title] = author2
+page = 1
+bookPhoto = {}
+bookAuthor = {}
+bookRating = {}
+while page < 15:
+    url1 = 'https://www.goodreads.com/review/list/57424153-ana?ref=nav_mybooks&shelf=read&page=' + str(page)
+    r1 = requests.get(url1)
+    soup1 = BeautifulSoup(r1.text, 'html.parser')
+    sub_soup1 = soup1.find('tbody', id='booksBody')
+    all_books1 = sub_soup1.find_all('tr', class_='bookalike review')
+
+    for each in all_books1:
+        photo = each.img.attrs.get('src')
+        book_title = each.find('td', class_='field title').a.text.strip()
+        book_title1 = book_title.replace
+        book_author = each.find('td', class_='field author').a.text
+        rating = each.find('td', class_='field avg_rating').div.text.strip()
+        bookPhoto[book_title] = photo
+        bookAuthor[book_title] = book_author
+        bookRating[book_title] = rating
+
+    page += 1
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -126,8 +179,7 @@ class RegisterForm(FlaskForm):
         existing_user_username = User.query.filter_by(
             username=username.data).first()
         if existing_user_username:
-            raise ValidationError(
-                'This username already exists. Please choose a different one.')
+            flash('This username already exists. Please choose a different one.')
 
 
 
@@ -145,8 +197,7 @@ class LoginForm(FlaskForm):
 
 @app.route('/')
 def home():
-    return render_template('index.html',fantasy=fantasy, crime=crime, scienceFiction=scienceFiction,
-                           fant=fant, cr=cr, sf=sf, fantas=fantas, crim=crim, sciencef=sciencef)
+    return render_template('index.html')
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -174,6 +225,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
+
 
     return render_template('register.html', form=form)
 
@@ -206,7 +258,8 @@ def login():
 @login_required
 def user():
     subjects = ['Python', 'Calculus', 'DB']
-    return render_template('user.html',  subjects=subjects)
+    return render_template('user.html', bookPhoto=bookPhoto,bookRating=bookRating,
+                           bookAuthor=bookAuthor, subjects=subjects)
 
 
 @app.route('/logout')
@@ -236,7 +289,11 @@ def books():
             flash('მონაცემები დამატებულია', 'info')
 
     return render_template('books.html')
-@app.route('/recommendation')
+
+@app.route('/fantasy')
+def fantasy():
+    return redirect('fantasy.html')
+
 def recommendations():
     return render_template('fantasy.html','crime.html','science_fiction.html',
                            fantasy=fantasy, crime=crime,
