@@ -3,18 +3,16 @@
 
 {% block content %}
 <br>
-<h3>წიგნის დამატება</h3>
-    <form method="post" style="width:50%; margin-left: 10px">
+<h3 style="margin-left: 5%; font-family: Chilanka">Type in Genre:</h3>
+    <form method="post" style="width:25%; margin-left: 10px">
       <div class="form-group">
-        <input type="text" name="title" class="form-control" placeholder="Book Title"><br>
-        <input type="text" name="author" class="form-control" placeholder="Book Author"><br>
-        <input type="text" name="price" class="form-control"  placeholder="Price"><br>
+        <input type="text" name="title" class="form-control" placeholder="fantasy, crime, sci-fi"><br>
       </div>
-        {% with messages = get_flashed_messages(with_categories = true) %}
-            {% for cat, msg in messages %}
-                <p class="{{cat}}">{{ msg }}</p>
-            {% endfor%}
-        {% endwith %}
-    <button type="submit" class="btn btn-primary">Add Book</button>
+<!--        {% with messages = get_flashed_messages(with_categories = true) %}-->
+<!--            {% for cat, msg in messages %}-->
+<!--                <p class="{{cat}}">{{ msg }}</p>-->
+<!--            {% endfor%}-->
+<!--        {% endwith %}-->
+    <button style="margin-left: 35%; background-color: cornflowerblue" type="submit" class="btn btn-primary">Search</button>
     </form>
 {% endblock %}

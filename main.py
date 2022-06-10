@@ -36,39 +36,48 @@ class Books(db.Model):
         return f'Book title: {self.title}; Author: {self.author}; Price: {self.price}'
 
 
-# def book_genre(genre):
-#     url = f'https://www.goodreads.com/shelf/show/{genre}'
-#     r = requests.get(url)
-#     soup = BeautifulSoup(r.text, 'html.parser')
-#     sub_soup = soup.find('div', class_='leftContainer')
-#     all_items = sub_soup.find_all('div', class_='elementList')
-#     for each in all_items:
-#         img_url = each.img.attrs['src']
-#         t = each.find('div', class_='left')
-#         title = t.find('a', class_='bookTitle').text
-#         author = each.find('div', class_='authorName__container').span.text
-#         avg = each.find('div', class_='left')
-#         avgRating = avg.find('span', class_='greyText smallText').text
-#
-#         if genre == 'fantasy':
-#             fantasy[title] = img_url
-#             fant[title] = avgRating
-#             fantas[title] = author
-#         elif genre == 'crime':
-#             crime[title] = img_url
-#             cr[title] = avgRating
-#             crim[title] = author
-#         else:
-#             scienceFiction[title] = img_url
-#             sf[title] = avgRating
-#             sciencef[title] = author
+def book_genre(genre):
+    url = f'https://www.goodreads.com/shelf/show/{genre}'
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    sub_soup = soup.find('div', class_='leftContainer')
+    all_items = sub_soup.find_all('div', class_='elementList')
+    for each in all_items:
+        img_url = each.img.attrs['src']
+        t = each.find('div', class_='left')
+        title = t.find('a', class_='bookTitle').text
+        author = each.find('div', class_='authorName__container').span.text
+        avg = each.find('div', class_='left')
+        avgRating = avg.find('span', class_='greyText smallText').text
 
-# fantasyBooks = book_genre('fantasy')
+        if genre == 'fantasy':
+            fantasy_img[title] = img_url
+            fantasy_rating[title] = avgRating
+            fantasy_author[title] = author
+        elif genre == 'crime':
+            crime_img[title] = img_url
+            crime_rating[title] = avgRating
+            crime_author[title] = author
+        else:
+            sci_fi_img[title] = img_url
+            sci_fi_rating[title] = avgRating
+            sci_fi_author[title] = author
+
+#key არის წიგნის სათაური - title
+fantasy_img = {}
+fantasy_rating = {}
+fantasy_author = {}
+crime_img = {}
+crime_rating = {}
+crime_author = {}
+sci_fi_img = {}
+sci_fi_rating = {}
+sci_fi_author = {}
+
+fantasyBooks = book_genre('fantasy')
 # crimeBooks = book_genre('crime')
 # sci_fiBooks = book_genre('science-fiction')
-# fantasy = {}
-# fant = {}
-# fantas = {}
+
 
 # url = 'https://www.goodreads.com/shelf/show/fantasy'
 # r = requests.get(url)
@@ -89,9 +98,9 @@ class Books(db.Model):
 
 
 
-# crime = {}
-# cr = {}
-# crim = {}
+# crime_img = {}
+# crime_rating = {}
+# crime_author = {}
 
 # url1 = 'https://www.goodreads.com/shelf/show/crime'
 # r1 = requests.get(url1)
@@ -110,9 +119,10 @@ class Books(db.Model):
 #     cr[title1] = avgRating1
 #     crim[title1] = author1
 
-# scienceFiction = {}
-# sf = {}
-# sciencef = {}
+# sci_fi_img = {}
+# sci_fi_rating = {}
+# sci_fi_author = {}
+
 # url2 = 'https://www.goodreads.com/shelf/show/science-fiction'
 # r2 = requests.get(url2)
 # soup2 = BeautifulSoup(r.text, 'html.parser')
@@ -135,6 +145,7 @@ class Books(db.Model):
 #     sciencef[title] = author2
 
 
+#წიგნები user.html-ზე გამოსატანად
 page = 1
 bookPhoto = {}
 bookAuthor = {}
@@ -202,21 +213,6 @@ def home():
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
-    # if request.method == 'POST':
-    #     email = request.form['email']
-    #     password = request.form['password']
-    #     username = request.form['username']
-    #     session['username'] = username
-    #     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    #     if email == '' or password == '' or username == '':
-    #         flash('Please fill in all the required fields', 'error')
-    #     elif (re.fullmatch(regex, email)) == False:
-    #         flash('Enter valid email', 'error')
-    #     elif len(password) < 8:
-    #         flash('Password must be 8 or more characters long', 'error')
-    #     else:
-    #         return redirect(url_for('home'))
-
     form = RegisterForm()
 
     if form.validate_on_submit():
@@ -231,14 +227,6 @@ def register():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    # if request.method == 'POST':
-    #     username = request.form['username']
-    #     password = request.form['username']
-    #     if username == register(username) and password == register(password):
-    #         return render_template('login.html')
-    #     else:
-    #         flash('Username or password mismatch', 'error')
-
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -257,9 +245,9 @@ def login():
 @app.route('/user')
 @login_required
 def user():
-    subjects = ['Python', 'Calculus', 'DB']
+
     return render_template('user.html', bookPhoto=bookPhoto,bookRating=bookRating,
-                           bookAuthor=bookAuthor, subjects=subjects)
+                           bookAuthor=bookAuthor)
 
 
 @app.route('/logout')

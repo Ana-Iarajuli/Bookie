@@ -3,27 +3,24 @@
 {% block content %}
 
     <center>
-        <h2 style="margin-top: 50px">Sign up</h2>
+        {{ super() }}
+        <h2 style="margin-top: 50px">Sign up</h2><br>
 
 
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             {{ form.username }}
+            <br>
+            <br>
             {{ form.password }}
+            <br>
+            <br>
             {{ form.submit }}
 
-            <p> Already have an account?  <a href="{{url_for('login')}}"> Log in </a> </p>
+            <p style="margin-top: 7%"> Already have an account?  <a href="{{url_for('login')}}"> Log in </a> </p>
 
         </form>
 
-<!--        <form method="post" style="width:50%; margin-left:20px; margin-top: 20px;">-->
-<!--&lt;!&ndash;            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter E-mail">&ndash;&gt;-->
-<!--            <input type="email" name="email" class="form-control" placeholder="Enter E-mail">-->
-<!--            <input type="text" name="username" class="form-control mb-3 mt-3" placeholder="username">-->
-<!--            <input type="password" name="password" class="form-control" placeholder="password">-->
-<!--            <button type="submit" class="btn btn-success mt-3">Register</button>-->
-<!--            <p> Already have an account?  <a href="{{url_for('login')}}"> Log in </a> </p>-->
-<!--        </form>-->
     </center>
 
 {% endblock %}
