@@ -1,8 +1,6 @@
 
-from genre import genre_page
 import requests
 from bs4 import BeautifulSoup
-from sqlalchemy.sql import func
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -39,27 +37,6 @@ class Books(db.Model):
         return f'Book title: {self.title}; Author: {self.author}; Price: {self.price}'
 
 
-# წამოვიღოთ პირველი სტრიქონი
-
-# b1 = Books.query.first()
-# print(b1)
-
-
-# all_books = Books.query.all()
-# # print(all_books)
-# for each in all_books:
-#     print(each)
-
-# რომ გავფილტროთ ავტორით
-#
-# all_books = Books.query.filter_by(author='William Shakespeare')
-# for each in all_books:
-#     print(each)
-
-# b1 = Books(title='უცხო', author='ალბერ კამიუ', price=10)
-# db.session.add(b1)
-# db.session.commit()
-
 fantasy = {}
 fant = {}
 fantas = {}
@@ -72,15 +49,11 @@ all_items = sub_soup.find_all('div', class_='elementList')
 for each in all_items:
 
     img_url = each.img.attrs['src']
-    # f_img_url.append(img_url)
     t = each.find('div', class_='left')
     title = t.find('a', class_='bookTitle').text
-    # f_title.append(title)
     author = each.find('div', class_='authorName__container').span.text
-    # f_author.append(author)
     avg = each.find('div', class_='left')
     avgRating = avg.find('span', class_='greyText smallText').text
-    # f_avg.append(avgRating)
     fantasy[title] = img_url
     fant[title] = avgRating
     fantas[title] = author
@@ -99,15 +72,11 @@ all_items1 = sub_soup1.find_all('div', class_='elementList')
 for each in all_items1:
 
     img_url1 = each.img.attrs['src']
-    # c_img_url.append(img_url1)
     t1 = each.find('div', class_='left')
     title1 = t1.find('a', class_='bookTitle').text
-    # c_title.append(title1)
     author1 = each.find('div', class_='authorName__container').span.text
-    # c_author.append(author1)
     avg1 = each.find('div', class_='left')
     avgRating1 = avg1.find('span', class_='greyText smallText').text
-    # c_avg.append(avgRating1)
     crime[title1] = img_url1
     cr[title1] = avgRating1
     crim[title] = author1
@@ -176,8 +145,8 @@ class LoginForm(FlaskForm):
 
 @app.route('/')
 def home():
-    return render_template('index.html',fantasy=fantasy , crime=crime , scienceFiction= scienceFiction,
-                           fant=fant , cr=cr, sf=sf)
+    return render_template('index.html',fantasy=fantasy, crime=crime, scienceFiction=scienceFiction,
+                           fant=fant, cr=cr, sf=sf, fantas=fantas, crim=crim, sciencef=sciencef)
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -267,7 +236,13 @@ def books():
             flash('მონაცემები დამატებულია', 'info')
 
     return render_template('books.html')
-
+@app.route('/recommendation')
+def recommendations():
+    return render_template('fantasy.html','crime.html','science_fiction.html',
+                           fantasy=fantasy, crime=crime,
+                           scienceFiction=scienceFiction,
+                           fant=fant, cr=cr, sf=sf, fantas=fantas,
+                           crim=crim, sciencef=sciencef)
 
 if __name__ == "__main__":
     app.run(debug=True)
