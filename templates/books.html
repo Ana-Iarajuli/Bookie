@@ -1,18 +1,20 @@
 {%  extends 'base.html' %}
-{% block title %} Home page {%  endblock %}
+<!--{% block title %} Home page {%  endblock %}-->
 
 {% block content %}
-<br>
-<h3 style="margin-left: 5%; font-family: Chilanka">Type in Genre:</h3>
-    <form method="post" style="width:25%; margin-left: 10px">
-      <div class="form-group">
-        <input type="text" name="title" class="form-control" placeholder="fantasy, crime, sci-fi"><br>
-      </div>
-<!--        {% with messages = get_flashed_messages(with_categories = true) %}-->
-<!--            {% for cat, msg in messages %}-->
-<!--                <p class="{{cat}}">{{ msg }}</p>-->
-<!--            {% endfor%}-->
-<!--        {% endwith %}-->
-    <button style="margin-left: 35%; background-color: cornflowerblue" type="submit" class="btn btn-primary">Search</button>
-    </form>
+
+        <br>
+        <h3 style="margin-left: 5%; font-family: Chilanka">Type in Genre:</h3>
+            <form method="post" style="width:25%; margin-left: 10px">
+                <input type="text" name="genre" class="form-control" placeholder="fantasy, crime, sci-fi"><br>
+<!--            {% with messages = get_flashed_messages(with_categories = true) %}-->
+<!--                {% for cat, msg in messages %}-->
+<!--                    <p class="{{cat}}">{{ msg }}</p>-->
+<!--                {% endfor%}-->
+<!--            {% endwith %}-->
+        <button style="margin-left: 35%; background-color: cornflowerblue" type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+<!--    {% block search %}-->
+<!--    {% endblock%}-->
 {% endblock %}

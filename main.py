@@ -13,7 +13,6 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 app.config['SECRET_KEY'] = 'brutuseti'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.sqlite'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -25,124 +24,6 @@ login_manager.login_view = "login"
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-class Books(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(30), nullable=False)
-    author = db.Column(db.String(30), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-
-    def __str__(self):
-        return f'Book title: {self.title}; Author: {self.author}; Price: {self.price}'
-
-
-def book_genre(genre):
-    url = f'https://www.goodreads.com/shelf/show/{genre}'
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'html.parser')
-    sub_soup = soup.find('div', class_='leftContainer')
-    all_items = sub_soup.find_all('div', class_='elementList')
-    for each in all_items:
-        img_url = each.img.attrs['src']
-        t = each.find('div', class_='left')
-        title = t.find('a', class_='bookTitle').text
-        author = each.find('div', class_='authorName__container').span.text
-        avg = each.find('div', class_='left')
-        avgRating = avg.find('span', class_='greyText smallText').text
-
-        if genre == 'fantasy':
-            fantasy_img[title] = img_url
-            fantasy_rating[title] = avgRating
-            fantasy_author[title] = author
-        elif genre == 'crime':
-            crime_img[title] = img_url
-            crime_rating[title] = avgRating
-            crime_author[title] = author
-        else:
-            sci_fi_img[title] = img_url
-            sci_fi_rating[title] = avgRating
-            sci_fi_author[title] = author
-
-#key არის წიგნის სათაური - title
-fantasy_img = {}
-fantasy_rating = {}
-fantasy_author = {}
-crime_img = {}
-crime_rating = {}
-crime_author = {}
-sci_fi_img = {}
-sci_fi_rating = {}
-sci_fi_author = {}
-
-fantasyBooks = book_genre('fantasy')
-# crimeBooks = book_genre('crime')
-# sci_fiBooks = book_genre('science-fiction')
-
-
-# url = 'https://www.goodreads.com/shelf/show/fantasy'
-# r = requests.get(url)
-# soup = BeautifulSoup(r.text, 'html.parser')
-# sub_soup = soup.find('div', class_='leftContainer')
-# all_items = sub_soup.find_all('div', class_='elementList')
-# for each in all_items:
-#
-#     img_url = each.img.attrs['src']
-#     t = each.find('div', class_='left')
-#     title = t.find('a', class_='bookTitle').text
-#     author = each.find('div', class_='authorName__container').span.text
-#     avg = each.find('div', class_='left')
-#     avgRating = avg.find('span', class_='greyText smallText').text
-#     fantasy[title] = img_url
-#     fant[title] = avgRating
-#     fantas[title] = author
-
-
-
-# crime_img = {}
-# crime_rating = {}
-# crime_author = {}
-
-# url1 = 'https://www.goodreads.com/shelf/show/crime'
-# r1 = requests.get(url1)
-# soup1 = BeautifulSoup(r.text, 'html.parser')
-# sub_soup1 = soup1.find('div', class_='leftContainer')
-# all_items1 = sub_soup1.find_all('div', class_='elementList')
-# for each in all_items1:
-#
-#     img_url1 = each.img.attrs['src']
-#     t1 = each.find('div', class_='left')
-#     title1 = t1.find('a', class_='bookTitle').text
-#     author1 = each.find('div', class_='authorName__container').span.text
-#     avg1 = each.find('div', class_='left')
-#     avgRating1 = avg1.find('span', class_='greyText smallText').text
-#     crime[title1] = img_url1
-#     cr[title1] = avgRating1
-#     crim[title1] = author1
-
-# sci_fi_img = {}
-# sci_fi_rating = {}
-# sci_fi_author = {}
-
-# url2 = 'https://www.goodreads.com/shelf/show/science-fiction'
-# r2 = requests.get(url2)
-# soup2 = BeautifulSoup(r.text, 'html.parser')
-# sub_soup2 = soup2.find('div', class_='leftContainer')
-# all_items2 = sub_soup2.find_all('div', class_='elementList')
-# for each in all_items2:
-#
-#     img_url2 = each.img.attrs['src']
-#     # s_img_url.append(img_url2)
-#     t2 = each.find('div', class_='left')
-#     title2 = t2.find('a', class_='bookTitle').text
-#     # s_title.append(title2)
-#     author2 = each.find('div', class_='authorName__container').span.text
-#     # s_author.append(author2)
-#     avg2 = each.find('div', class_='left')
-#     avgRating2 = avg2.find('span', class_='greyText smallText').text
-#     # s_avg.append(avgRating2)
-#     scienceFiction[title2] = img_url2
-#     sf[title2] = avgRating2
-#     sciencef[title] = author2
 
 
 #წიგნები user.html-ზე გამოსატანად
@@ -168,6 +49,12 @@ while page < 15:
         bookRating[book_title] = rating
 
     page += 1
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(30), nullable=False)
+    review = db.Column(db.String(30), nullable=False)
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -256,38 +143,34 @@ def logout():
     logout_user()
     return redirect(url_for('register'))
 
+# @app.route('/fantasy')
+# def fantasy():
+#     return render_template('index.html')
 
 @app.route('/books', methods=['GET', 'POST'])
 @login_required
 def books():
-    if request.method == 'POST':
-
-        t = request.form['title']
-        a = request.form['author']
-        p = request.form['price']
-
-        if t == '' or a == '' or p == '':
-             flash("შეიტანეთ ყველა ველი", 'error')
-        elif not p.isdecimal():
-            flash("შეიტანეთ რიცხვი ფასის ველში", 'error')
-        else:
-            b1 = Books(title=t, author=a, price=float(p))
-            db.session.add(b1)
-            db.session.commit()
-            flash('მონაცემები დამატებულია', 'info')
-
     return render_template('books.html')
 
-@app.route('/fantasy')
-def fantasy():
-    return redirect('fantasy.html')
 
-def recommendations():
-    return render_template('fantasy.html','crime.html','science_fiction.html',
-                           fantasy=fantasy, crime=crime,
-                           scienceFiction=scienceFiction,
-                           fant=fant, cr=cr, sf=sf, fantas=fantas,
-                           crim=crim, sciencef=sciencef)
+@app.route('/review', methods=['POST', 'GET'])
+@login_required
+def review():
+    if request.method == "POST":
+        title = request.form['title']
+        review = request.form['review']
+        if title == '' or review == '':
+            flash('Fill every field')
+        #შეყვანილი შეფასებების ბაზაში დამატება
+        else:
+            r1 = Review(title=title, review=review)
+            db.session.add(r1)
+            db.session.commit()
+            # return 'Your review was added successfully!'
+            flash('Your review was added successfully!')
+
+    return render_template('review.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

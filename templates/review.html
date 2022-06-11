@@ -1,0 +1,18 @@
+{%  extends 'base.html' %}
+ {% block title %} Home page {%  endblock %}
+
+{% block content %}
+<br>
+<h3 style="margin-left: 15%; font-family: Chilanka">Add a review</h3>
+    <form method="post" style="width:50%; margin-left: 10px">
+        <input type="text" name="title" class="form-control" placeholder="Enter A Book Title"><br>
+        <input type="text" name="review" class="form-control" placeholder="Enter Your Review"><br>
+
+        {% with messages = get_flashed_messages() %}
+            {% for m in messages %}
+                <p>{{ m }}</p>
+            {% endfor%}
+        {% endwith %}
+    <button style="margin-left: 35%; background-color: cornflowerblue" type="submit" class="btn btn-primary">Add Book</button>
+    </form>
+{% endblock %}
