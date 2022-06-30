@@ -12,7 +12,7 @@ and reviews.
 ### What are the problems users may find?
 
   You may encounter some problems as you are trying to access pages like My profile, Recommendations and Reviews, because you can't do that without 
-registration and authorization. Also, consider opening this site on pc as I'm working on to make it appealing to the mobile devices, too.
+registration and authorization. 
 
 
 
